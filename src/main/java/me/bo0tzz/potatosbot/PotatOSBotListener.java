@@ -50,7 +50,7 @@ public class PotatOSBotListener implements Listener {
             event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz", main.getBot());
             e.printStackTrace();
         }
-        SendableAudioMessage message = SendableAudioMessage.builder().audio(inputFile).title(text).build();
+        SendableAudioMessage message = SendableAudioMessage.builder().audio(inputFile).title(text).performer("GLaDOS").build();
         event.getChat().sendMessage(message, main.getBot());
     }
 
@@ -66,7 +66,7 @@ public class PotatOSBotListener implements Listener {
             event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz", main.getBot());
             e.printStackTrace();
         }
-        SendableAudioMessage message = SendableAudioMessage.builder().audio(inputFile).title(text).build();
+        SendableAudioMessage message = SendableAudioMessage.builder().audio(inputFile).title(text).performer("GLaDOS").build();
         event.getChat().sendMessage(message, main.getBot());
     }
 }
