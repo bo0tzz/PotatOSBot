@@ -38,6 +38,7 @@ public class PotatOSBotListener implements Listener {
         JSONArray results = ElasticSearchHook.getResults(event.getArgsString());
         if (results == null) {
             event.getChat().sendMessage("I couldn't find anything! Maybe try a different query?", main.getBot());
+            return;
         }
         JSONObject source = results.getJSONObject(0).getJSONObject("_source");
         String url = source.getString("url");
