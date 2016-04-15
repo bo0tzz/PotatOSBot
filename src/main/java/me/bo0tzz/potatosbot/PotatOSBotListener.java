@@ -2,8 +2,10 @@ package me.bo0tzz.potatosbot;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import pro.zackpollard.telegrambot.api.chat.message.send.ChatAction;
 import pro.zackpollard.telegrambot.api.chat.message.send.InputFile;
 import pro.zackpollard.telegrambot.api.chat.message.send.SendableAudioMessage;
+import pro.zackpollard.telegrambot.api.chat.message.send.SendableChatAction;
 import pro.zackpollard.telegrambot.api.event.Listener;
 import pro.zackpollard.telegrambot.api.event.chat.message.CommandMessageReceivedEvent;
 
@@ -40,6 +42,9 @@ public class PotatOSBotListener implements Listener {
             event.getChat().sendMessage("I couldn't find anything! Maybe try a different query?", main.getBot());
             return;
         }
+
+        event.getChat().sendMessage(SendableChatAction.builder().chatAction(ChatAction.UPLOAD_AUDIO).build(), main.getBot());
+
         JSONObject source = results.getJSONObject(0).getJSONObject("_source");
         String url = source.getString("url");
         String text = source.getString("text");
@@ -55,6 +60,8 @@ public class PotatOSBotListener implements Listener {
     }
 
     private void randomWAV(CommandMessageReceivedEvent event) {
+        event.getChat().sendMessage(SendableChatAction.builder().chatAction(ChatAction.UPLOAD_AUDIO).build(), main.getBot());
+        
         JSONObject results = ElasticSearchHook.getRandom();
         JSONObject source = results.getJSONObject("_source");
         String url = source.getString("url");
