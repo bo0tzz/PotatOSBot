@@ -34,8 +34,7 @@ public class ElasticSearchHook {
         if (response.getBody().getObject().getJSONObject("hits").getInt("total") == 0) {
             return null;
         }
-        JSONArray array = response.getBody().getObject().getJSONObject("hits").getJSONArray("hits");
-        return array;
+        return response.getBody().getObject().getJSONObject("hits").getJSONArray("hits");
     }
 
     public static JSONObject getRandom() {
@@ -45,7 +44,6 @@ public class ElasticSearchHook {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-        JSONObject object = response.getBody().getObject().getJSONObject("hits").getJSONArray("hits").getJSONObject(0);
-        return object;
+        return response.getBody().getObject().getJSONObject("hits").getJSONArray("hits").getJSONObject(0);
     }
 }
