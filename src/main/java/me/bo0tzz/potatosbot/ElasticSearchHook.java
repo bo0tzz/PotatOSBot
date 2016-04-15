@@ -31,6 +31,9 @@ public class ElasticSearchHook {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
+        if (response.getBody().getObject().getJSONObject("hits").getInt("total") == 0) {
+            return null;
+        }
         JSONArray array = response.getBody().getObject().getJSONObject("hits").getJSONArray("hits");
         return array;
     }
