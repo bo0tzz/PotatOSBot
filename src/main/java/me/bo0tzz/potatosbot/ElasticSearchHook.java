@@ -11,7 +11,7 @@ import org.json.JSONObject;
  * Created by bo0tzz on 15-4-2016.
  */
 public class ElasticSearchHook {
-    private static String ELASTICSEARCH_URL = "vps269588.ovh.net:9200/audio/";
+    private static String ELASTICSEARCH_URL = "http://vps269588.ovh.net:9200/audio/";
     private static String RANDOM_QUERY = "{\n" +
             "  \"query\": {\n" +
             "    \"function_score\" : {\n" +
