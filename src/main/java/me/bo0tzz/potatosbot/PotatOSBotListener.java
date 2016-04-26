@@ -42,11 +42,15 @@ public class PotatOSBotListener implements Listener {
     public void onInlineQueryReceived(InlineQueryReceivedEvent event) {
         if (event.getQuery().getQuery().equals(""))
             return;
+        System.out.println("Inline query received: " + event.getQuery().getQuery());
         JSONArray results = ElasticSearchHook.getResults(event.getQuery().getQuery());
-        if (results == null)
+        if (results == null) {
+            System.out.println("Results was null");
             return;
+        }
 
         List<InlineQueryResult> resultList = new ArrayList<>();
+        System.out.println("Iterating over JSON");
         for (int i = 0; i <= results.length(); i++) {
             JSONObject o = results.getJSONObject(i).getJSONObject("_source");
             String text = o.getString("text");
@@ -63,11 +67,14 @@ public class PotatOSBotListener implements Listener {
                     .title(text)
                     .build();
             resultList.add(r);
+            System.out.println(i + " : " + r.toString());
         }
 
         InlineQueryResponse response = InlineQueryResponse.builder()
                 .results(resultList)
                 .build();
+
+        System.out.println(response.toString());
 
         event.getQuery().answer(main.getBot(), response);
     }
