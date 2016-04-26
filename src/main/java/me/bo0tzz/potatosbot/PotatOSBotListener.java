@@ -2,16 +2,23 @@ package me.bo0tzz.potatosbot;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import pro.zackpollard.telegrambot.api.chat.inline.send.InlineQueryResponse;
+import pro.zackpollard.telegrambot.api.chat.inline.send.content.InputTextMessageContent;
+import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResult;
+import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResultAudio;
 import pro.zackpollard.telegrambot.api.chat.message.send.ChatAction;
 import pro.zackpollard.telegrambot.api.chat.message.send.InputFile;
 import pro.zackpollard.telegrambot.api.chat.message.send.SendableAudioMessage;
 import pro.zackpollard.telegrambot.api.chat.message.send.SendableChatAction;
 import pro.zackpollard.telegrambot.api.event.Listener;
+import pro.zackpollard.telegrambot.api.event.chat.inline.InlineQueryReceivedEvent;
 import pro.zackpollard.telegrambot.api.event.chat.message.CommandMessageReceivedEvent;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -29,6 +36,40 @@ public class PotatOSBotListener implements Listener {
             put("get", that::getWAV);
             put("random", that::randomWAV);
         }};
+    }
+
+    @Override
+    public void onInlineQueryReceived(InlineQueryReceivedEvent event) {
+        if (event.getQuery().getQuery().equals(""))
+            return;
+        JSONArray results = ElasticSearchHook.getResults(event.getQuery().getQuery());
+        if (results == null)
+            return;
+
+        List<InlineQueryResult> resultList = new ArrayList<>();
+        for (int i = 0; i <= results.length(); i++) {
+            JSONObject o = results.getJSONObject(i).getJSONObject("_source");
+            String text = o.getString("text");
+            URL url = null;
+            try {
+                url = new URL(o.getString("url"));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                break;
+            }
+            InlineQueryResult r = InlineQueryResultAudio.builder()
+                    .audioUrl(url)
+                    .performer("GLaDOS") //temporary, until multichar is added
+                    .title(text)
+                    .build();
+            resultList.add(r);
+        }
+
+        InlineQueryResponse response = InlineQueryResponse.builder()
+                .results(resultList)
+                .build();
+
+        event.getQuery().answer(main.getBot(), response);
     }
 
     @Override
