@@ -39,11 +39,11 @@ public class PotatOSBotListener implements Listener {
     private void getWAV(CommandMessageReceivedEvent event) {
         JSONArray results = ElasticSearchHook.getResults(event.getArgsString());
         if (results == null) {
-            event.getChat().sendMessage("I couldn't find anything! Maybe try a different query?", main.getBot());
+            event.getChat().sendMessage("I couldn't find anything! Maybe try a different query?");
             return;
         }
 
-        event.getChat().sendMessage(SendableChatAction.builder().chatAction(ChatAction.UPLOAD_AUDIO).build(), main.getBot());
+        event.getChat().sendMessage(SendableChatAction.builder().chatAction(ChatAction.UPLOAD_AUDIO).build());
 
         JSONObject source = results.getJSONObject(0).getJSONObject("_source");
         String url = source.getString("url");
@@ -52,16 +52,16 @@ public class PotatOSBotListener implements Listener {
         try {
             inputFile = new InputFile(new URL(url));
         } catch (MalformedURLException e) {
-            event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz", main.getBot());
+            event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz");
             e.printStackTrace();
         }
         SendableAudioMessage message = SendableAudioMessage.builder().audio(inputFile).title(text).performer("GLaDOS").build();
-        event.getChat().sendMessage(message, main.getBot());
+        event.getChat().sendMessage(message);
     }
 
     private void randomWAV(CommandMessageReceivedEvent event) {
-        event.getChat().sendMessage(SendableChatAction.builder().chatAction(ChatAction.UPLOAD_AUDIO).build(), main.getBot());
-        
+        event.getChat().sendMessage(SendableChatAction.builder().chatAction(ChatAction.UPLOAD_AUDIO).build());
+
         JSONObject results = ElasticSearchHook.getRandom();
         JSONObject source = results.getJSONObject("_source");
         String url = source.getString("url");
@@ -70,10 +70,10 @@ public class PotatOSBotListener implements Listener {
         try {
             inputFile = new InputFile(new URL(url));
         } catch (MalformedURLException e) {
-            event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz", main.getBot());
+            event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz");
             e.printStackTrace();
         }
         SendableAudioMessage message = SendableAudioMessage.builder().audio(inputFile).title(text).performer("GLaDOS").build();
-        event.getChat().sendMessage(message, main.getBot());
+        event.getChat().sendMessage(message);
     }
 }
