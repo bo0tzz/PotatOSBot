@@ -51,7 +51,7 @@ public class PotatOSBotListener implements Listener {
 
         List<InlineQueryResult> resultList = new ArrayList<>();
         System.out.println("Iterating over JSON");
-        for (int i = 0; i <= results.length(); i++) {
+        for (int i = 0; i < results.length(); i++) {
             JSONObject o = results.getJSONObject(i).getJSONObject("_source");
             String text = o.getString("text");
             URL url = null;
