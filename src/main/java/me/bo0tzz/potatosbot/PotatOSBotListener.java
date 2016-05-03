@@ -13,8 +13,10 @@ import pro.zackpollard.telegrambot.api.event.Listener;
 import pro.zackpollard.telegrambot.api.event.chat.inline.InlineQueryReceivedEvent;
 import pro.zackpollard.telegrambot.api.event.chat.message.CommandMessageReceivedEvent;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,8 +74,12 @@ public class PotatOSBotListener implements Listener {
             String text = o.getString("text");
             URL url = null;
             try {
-                url = new URL(o.getString("url"));
+                url = new URL(URLEncoder.encode(o.getString("url"), "UTF-8"));
             } catch (MalformedURLException e) {
+                e.printStackTrace();
+                break;
+            } catch (UnsupportedEncodingException e) {
+                System.out.println("Fix your shitty code");
                 e.printStackTrace();
                 break;
             }
