@@ -1,5 +1,6 @@
 package me.bo0tzz.potatosbot;
 
+import org.apache.http.client.HttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import pro.zackpollard.telegrambot.api.chat.inline.send.InlineQueryResponse;
@@ -74,16 +75,12 @@ public class PotatOSBotListener implements Listener {
             String text = o.getString("text");
             URL url = null;
             try {
-                url = new URL(URLEncoder.encode(o.getString("url"), "UTF-8"));
+                url = new URL(o.getString("url").replace(" ","%20"));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 break;
-            } catch (UnsupportedEncodingException e) {
-                System.out.println("Fix your shitty code");
-                e.printStackTrace();
-                break;
             }
-            InlineQueryResult r = InlineQueryResultAudio.builder()
+            InlineQueryResultAudio r = InlineQueryResultAudio.builder()
                     .audioUrl(url)
                     .performer(character.getName())
                     .title(text)
