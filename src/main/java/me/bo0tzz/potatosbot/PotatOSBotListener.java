@@ -51,7 +51,7 @@ public class PotatOSBotListener implements Listener {
             return;
 
         String arg = event.getQuery().getQuery().split(" ")[0];
-        Character character = null;
+        Character character = Character.ALL;
 
         for (Character c : Character.values()) {
             String s = c.getName().split(" ")[0].toLowerCase();
@@ -61,13 +61,7 @@ public class PotatOSBotListener implements Listener {
             }
         }
 
-        JSONArray results;
-
-        if (!(character == null)) {
-            results = ElasticSearchHook.getResults(character, event.getQuery().getQuery());
-        } else {
-            results = ElasticSearchHook.getResults(event.getQuery().getQuery());
-        }
+        JSONArray results = ElasticSearchHook.getResults(character, event.getQuery().getQuery());
 
         if (results == null)
             return;
