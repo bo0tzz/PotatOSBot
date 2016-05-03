@@ -2,16 +2,22 @@ package me.bo0tzz.potatosbot;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import pro.zackpollard.telegrambot.api.chat.inline.send.InlineQueryResponse;
+import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResult;
+import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResultAudio;
 import pro.zackpollard.telegrambot.api.chat.message.send.ChatAction;
 import pro.zackpollard.telegrambot.api.chat.message.send.InputFile;
 import pro.zackpollard.telegrambot.api.chat.message.send.SendableAudioMessage;
 import pro.zackpollard.telegrambot.api.chat.message.send.SendableChatAction;
 import pro.zackpollard.telegrambot.api.event.Listener;
+import pro.zackpollard.telegrambot.api.event.chat.inline.InlineQueryReceivedEvent;
 import pro.zackpollard.telegrambot.api.event.chat.message.CommandMessageReceivedEvent;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -39,15 +45,32 @@ public class PotatOSBotListener implements Listener {
         }};
     }
 
-    /*
     @Override
     public void onInlineQueryReceived(InlineQueryReceivedEvent event) {
         if (event.getQuery().getQuery().equals(""))
             return;
-        JSONArray results = ElasticSearchHook.getResults(event.getQuery().getQuery());
+
+        String arg = event.getQuery().getQuery().split(" ")[0];
+        Character character = null;
+
+        for (Character c : Character.values()) {
+            String s = c.getName().split(" ")[0].toLowerCase();
+            if (arg.equals(s)) {
+                character = c;
+                break;
+            }
+        }
+
+        JSONArray results;
+
+        if (!(character == null)) {
+            results = ElasticSearchHook.getResults(character, event.getQuery().getQuery());
+        } else {
+            results = ElasticSearchHook.getResults(event.getQuery().getQuery());
+        }
+
         if (results == null)
             return;
-
 
         List<InlineQueryResult> resultList = new ArrayList<>();
         for (int i = 0; i < results.length(); i++) {
@@ -62,7 +85,7 @@ public class PotatOSBotListener implements Listener {
             }
             InlineQueryResult r = InlineQueryResultAudio.builder()
                     .audioUrl(url)
-                    .performer("GLaDOS") //temporary, until multichar is added
+                    .performer(character.getName())
                     .title(text)
                     .build();
             resultList.add(r);
@@ -75,7 +98,6 @@ public class PotatOSBotListener implements Listener {
 
         event.getQuery().answer(main.getBot(), response);
     }
-    */
 
     @Override
     public void onCommandMessageReceived(CommandMessageReceivedEvent event) {
