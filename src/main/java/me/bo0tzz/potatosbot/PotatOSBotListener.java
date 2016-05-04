@@ -86,9 +86,6 @@ public class PotatOSBotListener implements Listener {
                     .performer(character.getName())
                     .title(text)
                     .audioDuration(1)
-                    .inputMessageContent(InputTextMessageContent.builder()
-                            .messageText(text)
-                            .build())
                     .build();
             resultList.add(r);
         }
