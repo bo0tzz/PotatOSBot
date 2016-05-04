@@ -4,6 +4,7 @@ import org.apache.http.client.HttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import pro.zackpollard.telegrambot.api.chat.inline.send.InlineQueryResponse;
+import pro.zackpollard.telegrambot.api.chat.inline.send.content.InputTextMessageContent;
 import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResult;
 import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResultAudio;
 import pro.zackpollard.telegrambot.api.chat.message.send.ChatAction;
@@ -85,6 +86,9 @@ public class PotatOSBotListener implements Listener {
                     .performer(character.getName())
                     .title(text)
                     .audioDuration(1)
+                    .inputMessageContent(InputTextMessageContent.builder()
+                            .messageText(text)
+                            .build())
                     .build();
             resultList.add(r);
         }
