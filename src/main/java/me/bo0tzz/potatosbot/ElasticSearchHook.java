@@ -12,6 +12,7 @@ import org.json.JSONObject;
  */
 public class ElasticSearchHook {
     private static String ELASTICSEARCH_URL = "http://es.bo0tzz.me/audio/";
+    private static String ACCESS_KEY;
     private static String RANDOM_QUERY = "{\n" +
             "  \"query\": {\n" +
             "    \"function_score\" : {\n" +
@@ -24,10 +25,17 @@ public class ElasticSearchHook {
     private ElasticSearchHook() {
     }
 
+    public static void setAccessKey(String accessKey) {
+        ACCESS_KEY = accessKey;
+    }
+
     public static JSONArray getResults(Character character, String query) {
         HttpResponse<JsonNode> response = null;
         try {
-            response = Unirest.get(ELASTICSEARCH_URL + character.getEndpoint() + "_search").queryString("q", query).asJson();
+            response = Unirest.get(ELASTICSEARCH_URL + character.getEndpoint() + "_search")
+                    .queryString("q", query)
+                    .basicAuth("www-data", ACCESS_KEY)
+                    .asJson();
         } catch (UnirestException e) {
             e.printStackTrace();
         }
@@ -44,7 +52,10 @@ public class ElasticSearchHook {
     public static JSONObject getRandom(Character character) {
         HttpResponse<JsonNode> response = null;
         try {
-            response = Unirest.post(ELASTICSEARCH_URL + character.getEndpoint() + "_search").body(new JsonNode(RANDOM_QUERY)).asJson();
+            response = Unirest.post(ELASTICSEARCH_URL + character.getEndpoint() + "_search")
+                    .basicAuth("www-data", ACCESS_KEY)
+                    .body(new JsonNode(RANDOM_QUERY))
+                    .asJson();
         } catch (UnirestException e) {
             e.printStackTrace();
         }
