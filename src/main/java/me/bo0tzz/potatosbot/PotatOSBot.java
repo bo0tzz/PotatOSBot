@@ -17,7 +17,6 @@ public class PotatOSBot {
         this.bot = TelegramBot.login(args[0]);
         bot.getEventsManager().register(new PotatOSBotListener(this));
         bot.startUpdates(false);
-        System.out.println("Bot is started!");
     }
 
     public TelegramBot getBot() {
