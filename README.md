@@ -6,3 +6,5 @@ It's got several commands and an inline mode to let you send clips to your frien
 
 You can find this bot on Telegram at [@PotatOSBot](http://t.me/PotatOSBot). Unfortunately, it is currently undergoing maintenance. 
 If you want to run the bot yourself, you can compile it with `mvn clean package`. You can find a list of all the audio files in [this repository](https://github.com/bo0tzz/Portal2CharacterDialogs)
+
+Makes use of the [JavaTelegramBot-API](https://github.com/zackpollard/JavaTelegramBot-API).
