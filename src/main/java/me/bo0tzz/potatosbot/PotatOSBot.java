@@ -13,8 +13,11 @@ public class PotatOSBot {
     }
 
     public PotatOSBot(String[] args) {
-        ElasticSearchHook.setAccessKey(args[1]);
-        this.bot = TelegramBot.login(args[0]);
+        String botKey = System.getenv("BOT_KEY");
+        if (botKey == null || botKey.equals("")) {
+            botKey = args[0];
+        }
+        this.bot = TelegramBot.login(botKey);
         bot.getEventsManager().register(new PotatOSBotListener(this));
         bot.startUpdates(false);
     }
