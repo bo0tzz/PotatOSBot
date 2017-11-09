@@ -26,6 +26,7 @@ public class ElasticSearchHook {
         if (ELASTICSEARCH_URL == null || ELASTICSEARCH_URL.equals("")) {
             ELASTICSEARCH_URL = "elasticsearch";
         }
+        ELASTICSEARCH_URL += "/";
     }
 
     private ElasticSearchHook() {
