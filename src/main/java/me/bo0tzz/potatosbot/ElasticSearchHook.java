@@ -24,9 +24,8 @@ public class ElasticSearchHook {
     static {
         ELASTICSEARCH_URL = System.getenv("ELASTIC_IP");
         if (ELASTICSEARCH_URL == null || ELASTICSEARCH_URL.equals("")) {
-            ELASTICSEARCH_URL = "elasticsearch";
+            ELASTICSEARCH_URL = "http://elasticsearch/";
         }
-        ELASTICSEARCH_URL += "/";
     }
 
     private ElasticSearchHook() {
