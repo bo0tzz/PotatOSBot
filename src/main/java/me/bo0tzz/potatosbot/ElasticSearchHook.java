@@ -36,6 +36,7 @@ public class ElasticSearchHook {
         try {
             response = Unirest.get(ELASTICSEARCH_URL + character.getEndpoint() + "_search")
                     .queryString("q", query)
+                    .header("Content-Type", "application/json")
                     .asJson();
         } catch (UnirestException e) {
             e.printStackTrace();
