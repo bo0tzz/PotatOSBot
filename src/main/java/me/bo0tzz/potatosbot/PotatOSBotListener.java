@@ -2,6 +2,7 @@ package me.bo0tzz.potatosbot;
 
 import org.apache.http.client.HttpClient;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import pro.zackpollard.telegrambot.api.chat.inline.InlineReplyMarkup;
 import pro.zackpollard.telegrambot.api.chat.inline.send.InlineQueryResponse;
@@ -201,16 +202,25 @@ public class PotatOSBotListener implements Listener {
 
     private void random(Character character, CommandMessageReceivedEvent event) {
         event.getChat().sendMessage(SendableChatAction.builder().chatAction(ChatAction.UPLOAD_AUDIO).build());
-
         JSONObject results = ElasticSearchHook.getRandom(character);
-        JSONObject source = results.getJSONObject("_source");
-        String url = source.getString("url");
-        String text = source.getString("text");
+
+        String url = null;
+        String text = null;
+        try {
+            JSONObject source = results.getJSONObject("_source");
+            url = source.getString("url");
+            text = source.getString("text");
+        } catch (JSONException e) {
+            event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz");
+            e.printStackTrace();
+            System.out.println(results);
+        }
         InputFile inputFile = null;
         try {
             inputFile = new InputFile(new URL(url));
         } catch (MalformedURLException e) {
             event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz");
+            System.out.println(url);
             e.printStackTrace();
         }
         SendableAudioMessage message = SendableAudioMessage.builder()
