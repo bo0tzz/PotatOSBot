@@ -52,10 +52,10 @@ public class PotatOSBotListener implements Listener {
 
     @Override
     public void onInlineQueryReceived(InlineQueryReceivedEvent event) {
-        if (event.getQuery().getQuery().equals(""))
-            return;
-
-        String arg = event.getQuery().getQuery().split(" ")[0];
+        String arg = event.getQuery().getQuery();
+        if (!arg.equals("")) {
+            arg = arg.split(" ")[0];
+        }
         Character character = Character.ALL;
 
         for (Character c : Character.values()) {

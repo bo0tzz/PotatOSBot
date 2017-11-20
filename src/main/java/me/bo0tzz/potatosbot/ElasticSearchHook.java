@@ -55,6 +55,7 @@ public class ElasticSearchHook {
         HttpResponse<JsonNode> response = null;
         try {
             response = Unirest.post(ELASTICSEARCH_URL + character.getEndpoint() + "_search")
+                    .header("Content-Type", "application/json")
                     .body(new JsonNode(RANDOM_QUERY))
                     .asJson();
         } catch (UnirestException e) {
