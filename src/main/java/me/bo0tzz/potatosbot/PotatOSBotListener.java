@@ -1,26 +1,18 @@
 package me.bo0tzz.potatosbot;
 
-import org.apache.http.client.HttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import pro.zackpollard.telegrambot.api.chat.inline.InlineReplyMarkup;
 import pro.zackpollard.telegrambot.api.chat.inline.send.InlineQueryResponse;
-import pro.zackpollard.telegrambot.api.chat.inline.send.content.InputTextMessageContent;
 import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResult;
-import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResultArticle;
 import pro.zackpollard.telegrambot.api.chat.inline.send.results.InlineQueryResultAudio;
 import pro.zackpollard.telegrambot.api.chat.message.send.*;
 import pro.zackpollard.telegrambot.api.event.Listener;
 import pro.zackpollard.telegrambot.api.event.chat.inline.InlineQueryReceivedEvent;
 import pro.zackpollard.telegrambot.api.event.chat.message.CommandMessageReceivedEvent;
-import pro.zackpollard.telegrambot.api.keyboards.InlineKeyboardMarkup;
-import pro.zackpollard.telegrambot.api.keyboards.ReplyKeyboardMarkup;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -204,6 +196,11 @@ public class PotatOSBotListener implements Listener {
     private void random(Character character, CommandMessageReceivedEvent event) {
         event.getChat().sendMessage(SendableChatAction.builder().chatAction(ChatAction.UPLOAD_AUDIO).build());
         JSONObject results = ElasticSearchHook.getRandom(character);
+
+        if (results == null) {
+            event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz");
+            return;
+        }
 
         String url = null;
         String text = null;

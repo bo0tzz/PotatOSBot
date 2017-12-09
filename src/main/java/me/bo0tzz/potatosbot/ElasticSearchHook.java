@@ -4,7 +4,9 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.request.HttpRequest;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -46,15 +48,23 @@ public class ElasticSearchHook {
 
     public static JSONObject getRandom(Character character) {
         HttpResponse<JsonNode> response = null;
+        String url = ELASTICSEARCH_URL + character.getEndpoint() + "_search";
+        HttpRequest request = Unirest.post(url)
+                .header("Content-Type", "application/json")
+                .body(new JsonNode(RANDOM_QUERY)).getHttpRequest();
         try {
-            response = Unirest.post(ELASTICSEARCH_URL + character.getEndpoint() + "_search")
-                    .header("Content-Type", "application/json")
-                    .body(new JsonNode(RANDOM_QUERY))
-                    .asJson();
+            response = request.asJson();
         } catch (UnirestException e) {
+            System.out.println("Ran into unirestexception! Url was " + url + "\n With request " + request.toString());
             e.printStackTrace();
         }
-        return response.getBody().getObject().getJSONObject("hits").getJSONArray("hits").getJSONObject(0);
+        try {
+            return response.getBody().getObject().getJSONObject("hits").getJSONArray("hits").getJSONObject(0);
+        } catch (JSONException e) {
+            System.out.println("Received invalid json from url " + url + "\n With request " + request.toString());
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static JSONObject getRandom() {
