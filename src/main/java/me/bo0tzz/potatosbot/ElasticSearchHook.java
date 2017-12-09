@@ -5,9 +5,12 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 /**
  * Created by bo0tzz on 15-4-2016.
@@ -52,6 +55,12 @@ public class ElasticSearchHook {
         HttpRequest request = Unirest.post(url)
                 .header("Content-Type", "application/json")
                 .body(new JsonNode(RANDOM_QUERY)).getHttpRequest();
+        try {
+            System.out.println("Sending request: ");
+            System.out.println(IOUtils.toString(request.getBody().getEntity().getContent()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             response = request.asJson();
         } catch (UnirestException e) {
