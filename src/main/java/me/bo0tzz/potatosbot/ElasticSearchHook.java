@@ -58,6 +58,7 @@ public class ElasticSearchHook {
         try {
             System.out.println("Sending request: ");
             System.out.println(IOUtils.toString(request.getBody().getEntity().getContent()));
+            System.out.println("To URL " + request.getUrl());
         } catch (IOException e) {
             e.printStackTrace();
         }
