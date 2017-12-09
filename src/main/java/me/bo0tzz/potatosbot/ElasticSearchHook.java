@@ -55,13 +55,13 @@ public class ElasticSearchHook {
         try {
             response = request.asJson();
         } catch (UnirestException e) {
-            System.out.println("Ran into unirestexception! Url was " + url + "\n With request " + request.toString());
+            System.out.println("Ran into unirestexception! Url was " + url + "\n With request " + request.getBody().toString());
             e.printStackTrace();
         }
         try {
             return response.getBody().getObject().getJSONObject("hits").getJSONArray("hits").getJSONObject(0);
         } catch (JSONException e) {
-            System.out.println("Received invalid json from url " + url + "\n With request " + request.toString());
+            System.out.println("Received invalid json from url " + url + "\n With request " + request.getBody().toString());
             e.printStackTrace();
         }
         return null;
