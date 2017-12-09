@@ -58,7 +58,7 @@ public class ElasticSearchHook {
             System.out.println("Ran into unirestexception! Url was " + url + "\n With request " + request.getBody().getEntity().toString());
             e.printStackTrace();
         }
-        System.out.println("Received response " + response.toString());
+        System.out.println("Received response " + response.getBody().toString());
         try {
             return response.getBody().getObject().getJSONObject("hits").getJSONArray("hits").getJSONObject(0);
         } catch (JSONException e) {
