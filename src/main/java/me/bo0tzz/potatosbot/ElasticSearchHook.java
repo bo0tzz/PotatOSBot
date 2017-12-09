@@ -63,8 +63,8 @@ public class ElasticSearchHook {
         } catch (JSONException e) {
             System.out.println("Received invalid json from url " + url + "\n With request " + request.getBody().toString());
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public static JSONObject getRandom() {
