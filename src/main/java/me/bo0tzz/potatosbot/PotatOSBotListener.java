@@ -123,6 +123,7 @@ public class PotatOSBotListener implements Listener {
         } catch (MalformedURLException e) {
             event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz");
             e.printStackTrace();
+            return;
         }
         SendableAudioMessage message = SendableAudioMessage.builder()
                 .audio(inputFile)
@@ -214,6 +215,7 @@ public class PotatOSBotListener implements Listener {
             event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz");
             e.printStackTrace();
             System.out.println(results);
+            return;
         }
         InputFile inputFile = null;
         try {
@@ -222,6 +224,7 @@ public class PotatOSBotListener implements Listener {
             event.getChat().sendMessage("Something went wrong while trying to get your result! If this happens again, please contact @bo0tzz");
             System.out.println(url);
             e.printStackTrace();
+            return;
         }
         SendableAudioMessage message = SendableAudioMessage.builder()
                 .audio(inputFile)
