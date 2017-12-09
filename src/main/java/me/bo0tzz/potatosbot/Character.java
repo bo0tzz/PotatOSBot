@@ -27,6 +27,6 @@ public enum Character {
     public String getEndpoint() {
         if (!name.equals(""))
             return name + "/";
-        return "";
+        return "/";
     }
 }
