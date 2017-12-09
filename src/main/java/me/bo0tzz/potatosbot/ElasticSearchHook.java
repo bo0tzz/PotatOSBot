@@ -12,14 +12,7 @@ import org.json.JSONObject;
  */
 public class ElasticSearchHook {
     private static String ELASTICSEARCH_URL;
-    private static String RANDOM_QUERY = "{\n" +
-            "  \"query\": {\n" +
-            "    \"function_score\" : {\n" +
-            "      \"query\" : { \"match_all\": {} },\n" +
-            "      \"random_score\" : {}\n" +
-            "    }\n" +
-            "  }\n" +
-            "}";
+    private static String RANDOM_QUERY = "{\"size\":1,\"query\":{\"function_score\":{\"functions\":[{\"random_score\":{}}]}}}";
 
     static {
         ELASTICSEARCH_URL = System.getenv("ELASTIC_IP");
